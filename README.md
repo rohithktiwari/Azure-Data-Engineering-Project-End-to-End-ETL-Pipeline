@@ -7,6 +7,35 @@ In this blog, I share a comprehensive guide to designing an end-to-end (E2E) dat
 
 
 ---
+## 📌 Project Objective
+
+To build a scalable, secure, and efficient data pipeline that:
+- Ingests data from external sources
+- Transforms and cleans the data using PySpark
+- Stores data in a structured format for analysis
+- Enables rich visualizations for decision-making
+
+---
+
+## 🧱 Architecture Overview
+
+```plaintext
+         [External API Source]
+                  |
+          Azure Data Factory (ADF)
+                  |
+        Azure Data Lake Storage Gen2
+        ┌──────────┬──────────┬──────────┐
+     [Bronze Layer][Silver Layer][Gold Layer]
+                  |
+          Azure Databricks (PySpark)
+                  |
+        Azure Synapse Analytics (SQL Pools)
+                  |
+             Power BI Dashboard
+```
+
+---
 
 ## **Architecture Overview**
 
@@ -115,14 +144,34 @@ The final step involved integrating the data with a BI tool to visualize and gen
 
 ---
 
-## **Key Takeaways** 🌐
+## 🗂️ Project Breakdown
 
-This project demonstrates the power of Azure’s ecosystem in creating a robust data engineering pipeline. By combining tools like ADF, Databricks, Synapse Analytics, and Power BI, the solution achieves:
+### 1️⃣ Data Ingestion (Bronze Layer)
+- Extracted data from an external HTTP API using Azure Data Factory.
+- Stored raw data in Azure Data Lake Storage Gen2 in a structured folder format.
 
-- **Automation:** Seamlessly moves data through different stages.
-- **Scalability:** Handles large datasets with ease.
-- **Efficiency:** Optimizes storage and querying with Parquet format and serverless SQL pools.
-- **Actionable Insights:** Delivers data to stakeholders through interactive BI dashboards.
+### 2️⃣ Data Transformation (Silver Layer)
+- Created a secure connection between Azure Data Lake and Databricks using Microsoft Entra ID (App ID, Secret, Tenant ID).
+- Used PySpark to clean, filter, and transform the raw data.
+- Implemented **incremental loading** using SCD Type 1 (Upsert logic) for optimized performance.
+
+### 3️⃣ Data Serving (Gold Layer)
+- Loaded transformed data into **Azure Synapse Analytics** using `OPENROWSET()` and **external tables**.
+- Enabled fast, structured access for analytical querying.
+
+### 4️⃣ Reporting and Dashboard
+- Connected **Power BI** to Synapse Analytics.
+- Built a real-time, interactive dashboard to visualize the final business insights.
+
+---
+
+## 💡 Key Learnings
+
+- Understanding the Medallion Architecture in real-world data workflows.
+- Connecting Azure services securely using managed identities and service principals.
+- Handling incremental data loads for scalable ETL.
+- Query optimization in Synapse using external tables and views.
+- Delivering insights through Power BI dashboards.
 
 ---
 
@@ -133,3 +182,12 @@ This end-to-end solution exemplifies how modern data-driven businesses can lever
 ## **Acknowledgment** 🎉
 
 This project draws inspiration from an insightful [GitHub repository by Ansh Lamba](https://github.com/anshlambagit). For a detailed video walkthrough, check out his [YouTube channel](https://www.youtube.com/watch?v=0GTZ-12hYtU&t=15907s&ab_channel=AnshLamba). Special thanks to Ansh for providing such valuable resources and guidance for aspiring data engineers!
+
+
+## 📬 Contact
+
+If you have any questions, ideas, or want to collaborate — feel free to connect!
+
+**Author:** Rohit Tiwari
+**LinkedIn:** [linkedin.com/in/rohithktiwari](https://www.linkedin.com/in/rohithktiwari/)  
+**Email:** rohithktiwari@gmail.com
